@@ -29,7 +29,7 @@ pipeline{
         }
         stage("Checkout from SCM"){
             steps{
-                git branch: 'main', credentialsId:'github', url:'https://github.com/adama007/MicroService'
+                git branch: 'main', credentialsId:'github', url:'https://github.com/adama007/Devops'
             }
         }
         
