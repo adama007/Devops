@@ -8,9 +8,11 @@ pipeline{
     }
     environment {
         // Initialize global variables here
-        DOCKER_REGISTRY = 'your-docker-registry-url'
-        IMAGE_NAME = 'your-image-name'
-        IMAGE_TAG = 'latest'
+        APP_NAME="appmicro"
+        DOCKER_USER = "adamchouk23"
+        DOCKER_PASS="doxkerhub"
+        IMAGE_NAME="${DOCKER_USER}"+"/"+"${APP_NAME}"
+        IMAGE_TAG = '1.0'   
     }
     stages{
         stage("Initialization"){
@@ -38,30 +40,31 @@ pipeline{
                 sh "npm test"
             }
         }
-        /** tage("Build Image"){
+         tage("Build Image"){
             steps{
                 sh "docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} ."
             }
         }
-        stage("Test Image"){
-            steps{
-                // Add steps to test the built Docker image
-            }
-        }
         stage("Push to Registry"){
             steps{
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY"
+                script{
+                    docker.withRegistry('',DOCKER_PASS){
+                        docker_image=docker.build"${IMAGE_NAME}"
+                    }
+                    docker.withRegistry('',DOCKER_PASS){
+                        docker_image.push("${IMAGE_TAG}")
+                        docker_image.push('latest')
+                    }
                 }
-                sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
             }
         }
-        stage("Cleanup"){
+       /** stage("Cleanup"){
             steps{
                 // Add cleanup steps here
                 sh "docker rmi ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
             }
-        }**/
+        }
+        */
     }
     
 }
