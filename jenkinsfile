@@ -64,14 +64,18 @@ pipeline{
 }
             }
         }
- stage ('Cleanup Artifacts') {
-            steps {
-                script {
-                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
-                    sh "docker rmi ${IMAGE_NAME}:latest"
-                }
-            }
+ stage('Cleanup Artifacts') {
+    steps {
+        script {
+            // Supprimer l'image avec la balise spécifiée
+            sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
+            
+            // Supprimer l'image 'latest'
+            sh "docker rmi ${IMAGE_NAME}:latest"
         }
+    }
+}
+
 
      }
      
