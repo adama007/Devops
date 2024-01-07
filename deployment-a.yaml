@@ -61,9 +61,9 @@ spec:
     spec:
       containers:
         - name: todo-mi
-          image: adamchouk23/micro:1.0
+          image: adamchouk23/microapp:1.0
           ports:
-            - containerPort: 5000
+            - containerPort: 3000
           envFrom:
             - configMapRef:
                 name: todo-mi-config
@@ -80,7 +80,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 5000
+      targetPort: 3000
   type: LoadBalancer
 
 ---
