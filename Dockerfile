@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5000
 
 # Start the application
-CMD ["node", "apiGateway.js"]
+CMD ["node", """.js"]
