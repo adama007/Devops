@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: todo-mi
+  name: todo-m
 
 ---
 apiVersion: apps/v1
@@ -24,7 +24,7 @@ spec:
           ports:
             - containerPort: 27017
           volumeMounts:
-            - name: mongo-mi
+            - name: mongo-m
               mountPath: /data/db
       volumes:
         - name: mongo-mi
@@ -48,35 +48,35 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-mi
+  name: todo-m
 spec:
   replicas: 5
   selector:
     matchLabels:
-      app: todo-mi
+      app: todo-m
   template:
     metadata:
       labels:
-        app: todo-mi
+        app: todo-m
     spec:
       containers:
-        - name: todo-mi
+        - name: todo-m
           image: adamchouk23/appmicro:1.0
           ports:
             - containerPort: 5000
           envFrom:
             - configMapRef:
-                name: todo-mi-config
+                name: todo-m-config
       restartPolicy: Always
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: todo-mi
+  name: todo-m
 spec:
   selector:
-    app: todo-mi
+    app: todo-m
   ports:
     - protocol: TCP
       port: 80
@@ -87,12 +87,12 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: todo-mi-hpa
+  name: todo-m-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: todo-mi
+    name: todo-m
   minReplicas: 1
   maxReplicas: 5
   metrics:
