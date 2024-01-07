@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
         - name: todo-mi
-          image: adamchouk23/appmicroservice:1.0
+          image: adamchouk23/appmicroservic:1.0
           ports:
             - containerPort: 5000
           envFrom:
