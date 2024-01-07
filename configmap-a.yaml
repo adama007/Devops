@@ -4,4 +4,4 @@ metadata:
   name: todo-mi-config
 data:
   PORT: "5000"
-  MONGO_URI: "mongodb://mongo:27017/todo-m"
+  MONGO_URI: "mongodb://mongo:27017/todo-mi"
