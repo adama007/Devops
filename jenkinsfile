@@ -34,33 +34,19 @@ pipeline{
                 git branch: 'main', credentialsId:'github', url:'https://github.com/adama007/Devops'
             }
         }
-        
-        stage("Test Application"){
-            steps{
-                sh "npm test"
+       stage('DeployToProduction') {
+            steps {
+                kubeconfig(credentialsId: 'config', serverUrl: 'https://192.168.49.2:8443') {
+                 sh 'kubectl apply -f configmap-a.yaml'
+                 sh 'kubectl apply -f deployment-a.yaml'
+                 sh 'kubectl rollout restart deployment train-schedule'
+}
             }
         }
+    
 
-        stage("Push to Registry"){
-            steps{
-                script{
-                    docker.withRegistry('',DOCKER_PASS){
-                        docker_image=docker.build"${IMAGE_NAME}"
-                    }
-                    docker.withRegistry('',DOCKER_PASS){
-                        docker_image.push("${IMAGE_TAG}")
-                        docker_image.push('latest')
-                    }
-                }
-            }
-        }
-        stage("Trivy Scan") {
-           steps {
-               script {
-	            sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image adamchouk23/appmicroservice:latest --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table')
-               }
-           }
-       }
+
      }
+     
     
 }
