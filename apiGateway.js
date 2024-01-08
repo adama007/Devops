@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 connectDB()
 
-app.use('/api/v1/users', require('./auth/routes/userRoutes'))
+app.use('/api/v1/user', require('./auth/routes/userRoutes'))
 
 app.use('/graphql', protect, graphqlHTTP({
     schema,
